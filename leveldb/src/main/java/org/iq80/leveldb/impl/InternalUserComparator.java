@@ -24,37 +24,34 @@ import static com.google.common.base.Preconditions.checkState;
 import static org.iq80.leveldb.impl.SequenceNumber.MAX_SEQUENCE_NUMBER;
 
 public class InternalUserComparator
-        implements UserComparator
-{
+        implements UserComparator {
     private final InternalKeyComparator internalKeyComparator;
 
-    public InternalUserComparator(InternalKeyComparator internalKeyComparator)
-    {
+    public InternalUserComparator(InternalKeyComparator internalKeyComparator) {
         this.internalKeyComparator = internalKeyComparator;
     }
 
     @Override
-    public int compare(Slice left, Slice right)
-    {
+    public int compare(Slice left, Slice right) {
         return internalKeyComparator.compare(new InternalKey(left), new InternalKey(right));
     }
 
     @Override
-    public String name()
-    {
+    public String name() {
         return internalKeyComparator.name();
     }
 
     @Override
     public Slice findShortestSeparator(
             Slice start,
-            Slice limit)
-    {
+            Slice limit) {
         // Attempt to shorten the user portion of the key
         Slice startUserKey = new InternalKey(start).getUserKey();
         Slice limitUserKey = new InternalKey(limit).getUserKey();
 
-        Slice shortestSeparator = internalKeyComparator.getUserComparator().findShortestSeparator(startUserKey, limitUserKey);
+        Slice shortestSeparator = internalKeyComparator
+                .getUserComparator()
+                .findShortestSeparator(startUserKey, limitUserKey);
 
         if (internalKeyComparator.getUserComparator().compare(startUserKey, shortestSeparator) < 0) {
             // User key has become larger.  Tack on the earliest possible
@@ -70,8 +67,7 @@ public class InternalUserComparator
     }
 
     @Override
-    public Slice findShortSuccessor(Slice key)
-    {
+    public Slice findShortSuccessor(Slice key) {
         Slice userKey = new InternalKey(key).getUserKey();
         Slice shortSuccessor = internalKeyComparator.getUserComparator().findShortSuccessor(userKey);
 

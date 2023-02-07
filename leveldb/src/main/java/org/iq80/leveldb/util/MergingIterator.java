@@ -26,15 +26,12 @@ import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.PriorityQueue;
 
-public final class MergingIterator
-        extends AbstractSeekingIterator<InternalKey, Slice>
-{
+public final class MergingIterator extends AbstractSeekingIterator<InternalKey, Slice> {
     private final List<? extends InternalIterator> levels;
     private final PriorityQueue<ComparableIterator> priorityQueue;
     private final Comparator<InternalKey> comparator;
 
-    public MergingIterator(List<? extends InternalIterator> levels, Comparator<InternalKey> comparator)
-    {
+    public MergingIterator(List<? extends InternalIterator> levels, Comparator<InternalKey> comparator) {
         this.levels = levels;
         this.comparator = comparator;
 
@@ -43,8 +40,7 @@ public final class MergingIterator
     }
 
     @Override
-    protected void seekToFirstInternal()
-    {
+    protected void seekToFirstInternal() {
         for (InternalIterator level : levels) {
             level.seekToFirst();
         }
@@ -52,16 +48,14 @@ public final class MergingIterator
     }
 
     @Override
-    protected void seekInternal(InternalKey targetKey)
-    {
+    protected void seekInternal(InternalKey targetKey) {
         for (InternalIterator level : levels) {
             level.seek(targetKey);
         }
         resetPriorityQueue(comparator);
     }
 
-    private void resetPriorityQueue(Comparator<InternalKey> comparator)
-    {
+    private void resetPriorityQueue(Comparator<InternalKey> comparator) {
         int i = 1;
         for (InternalIterator level : levels) {
             if (level.hasNext()) {
@@ -71,8 +65,7 @@ public final class MergingIterator
     }
 
     @Override
-    protected Entry<InternalKey, Slice> getNextElement()
-    {
+    protected Entry<InternalKey, Slice> getNextElement() {
         Entry<InternalKey, Slice> result = null;
         ComparableIterator nextIterator = priorityQueue.poll();
         if (nextIterator != null) {
@@ -85,8 +78,7 @@ public final class MergingIterator
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("MergingIterator");
         sb.append("{levels=").append(levels);
@@ -95,16 +87,13 @@ public final class MergingIterator
         return sb.toString();
     }
 
-    private static class ComparableIterator
-            implements Iterator<Entry<InternalKey, Slice>>, Comparable<ComparableIterator>
-    {
+    private static class ComparableIterator implements Iterator<Entry<InternalKey, Slice>>, Comparable<ComparableIterator> {
         private final InternalIterator iterator;
         private final Comparator<InternalKey> comparator;
         private final int ordinal;
         private Entry<InternalKey, Slice> nextElement;
 
-        private ComparableIterator(InternalIterator iterator, Comparator<InternalKey> comparator, int ordinal, Entry<InternalKey, Slice> nextElement)
-        {
+        private ComparableIterator(InternalIterator iterator, Comparator<InternalKey> comparator, int ordinal, Entry<InternalKey, Slice> nextElement) {
             this.iterator = iterator;
             this.comparator = comparator;
             this.ordinal = ordinal;
@@ -112,14 +101,12 @@ public final class MergingIterator
         }
 
         @Override
-        public boolean hasNext()
-        {
+        public boolean hasNext() {
             return nextElement != null;
         }
 
         @Override
-        public Entry<InternalKey, Slice> next()
-        {
+        public Entry<InternalKey, Slice> next() {
             if (nextElement == null) {
                 throw new NoSuchElementException();
             }
@@ -127,22 +114,19 @@ public final class MergingIterator
             Entry<InternalKey, Slice> result = nextElement;
             if (iterator.hasNext()) {
                 nextElement = iterator.next();
-            }
-            else {
+            } else {
                 nextElement = null;
             }
             return result;
         }
 
         @Override
-        public void remove()
-        {
+        public void remove() {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public boolean equals(Object o)
-        {
+        public boolean equals(Object o) {
             if (this == o) {
                 return true;
             }
@@ -163,16 +147,14 @@ public final class MergingIterator
         }
 
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             int result = ordinal;
             result = 31 * result + (nextElement != null ? nextElement.hashCode() : 0);
             return result;
         }
 
         @Override
-        public int compareTo(ComparableIterator that)
-        {
+        public int compareTo(ComparableIterator that) {
             int result = comparator.compare(this.nextElement.getKey(), that.nextElement.getKey());
             if (result == 0) {
                 result = Integer.compare(this.ordinal, that.ordinal);
