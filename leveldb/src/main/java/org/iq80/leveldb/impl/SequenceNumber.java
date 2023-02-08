@@ -20,6 +20,13 @@ package org.iq80.leveldb.impl;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 
+/**
+ * sequenceNumber是一个64位的数。每次更新时，由SequenceNumber来标识，整个 db 有一个全局值保存着当前使用到的 SequnceNumber。
+ * <p>
+ * SequnceNumber 在 leveldb 有重要的地位，key 的排序，compact 以及 snapshot 都依赖于它. SequnceNumber只占56bits,ValueType占用8bits
+ * <p>
+ * 该类实现了利用7 byte的SequenceNumbers和1byte的valuetype构建完整的long，也实现了从long中拆出SequenceNumbers和valuetype的功能
+ */
 public final class SequenceNumber {
     // We leave eight bits empty at the bottom so a type and sequence#
     // can be packed together into 64-bits.

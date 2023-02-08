@@ -17,6 +17,9 @@
  */
 package org.iq80.leveldb;
 
+/**
+ * 选项
+ */
 public class Options {
     private boolean createIfMissing = true;
     private boolean errorIfExists;
@@ -61,11 +64,20 @@ public class Options {
         return writeBufferSize;
     }
 
+    /**
+     * writeBufferSize:memetable的大小超过writebuffersize时，转为immemtable
+     * @param writeBufferSize bufferSize
+     * @return option
+     */
     public Options writeBufferSize(int writeBufferSize) {
         this.writeBufferSize = writeBufferSize;
         return this;
     }
 
+    /**
+     * maxOpenFile:DB可打开的最大文件数
+     * @return int
+     */
     public int maxOpenFiles() {
         return maxOpenFiles;
     }
@@ -75,6 +87,10 @@ public class Options {
         return this;
     }
 
+    /**
+     * blockRestartInterval: block重启点之间的key的个数
+     * @return int
+     */
     public int blockRestartInterval() {
         return blockRestartInterval;
     }
@@ -84,6 +100,10 @@ public class Options {
         return this;
     }
 
+    /**
+     * blockSize:每一个block大小，指压缩数据大小
+     * @return block size
+     */
     public int blockSize() {
         return blockSize;
     }
@@ -93,6 +113,10 @@ public class Options {
         return this;
     }
 
+    /**
+     * CompressionType:压缩block的方式
+     * @return CompressionType
+     */
     public CompressionType compressionType() {
         return compressionType;
     }
@@ -103,6 +127,10 @@ public class Options {
         return this;
     }
 
+    /**
+     * verifChecksums:所有读取数据都会校验
+     * @return boolean
+     */
     public boolean verifyChecksums() {
         return verifyChecksums;
     }
@@ -112,6 +140,11 @@ public class Options {
         return this;
     }
 
+
+    /**
+     * cacheSize:缓存大小
+     * @return long
+     */
     public long cacheSize() {
         return cacheSize;
     }
@@ -121,6 +154,10 @@ public class Options {
         return this;
     }
 
+    /**
+     * DBcomparator:
+     * @return DBComparator
+     */
     public DBComparator comparator() {
         return comparator;
     }
@@ -130,6 +167,11 @@ public class Options {
         return this;
     }
 
+
+    /**
+     * logger:db产生的处理和错误日志写入指定文件，若为空，则在同一个目录中创建一个文件写入db
+     * @return logger
+     */
     public Logger logger() {
         return logger;
     }
@@ -139,6 +181,11 @@ public class Options {
         return this;
     }
 
+
+    /**
+     * paranoidchecks:如果为true，数据处理过程会严格检查数据，检查到任何数据都会提前停止
+     * @return boolean
+     */
     public boolean paranoidChecks() {
         return paranoidChecks;
     }

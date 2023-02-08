@@ -28,10 +28,14 @@ public interface DBComparator extends Comparator<byte[]> {
     /**
      * If {@code start < limit}, returns a short key in [start,limit).
      * Simple comparator implementations should return start unchanged,
+     * <p>
+     * FindShortestSeparator(start, limit)作用是：如果start < limit，就返回一个key
      */
     byte[] findShortestSeparator(byte[] start, byte[] limit);
 
     /**
+     * FindShortSuccessor。直接对key中第一个以uint8方式+1的字节+1，清除该位后面的数据。
+     * <p>
      * returns a 'short key' where the 'short key' is greater than or equal to key.
      * Simple comparator implementations should return key unchanged,
      */

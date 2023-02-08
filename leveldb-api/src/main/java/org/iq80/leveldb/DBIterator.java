@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
+ * 数据库迭代器
  * @author <a href="http://hiramchirino.com">Hiram Chirino</a>
  */
 public interface DBIterator extends Iterator<Map.Entry<byte[], byte[]>>, Closeable {

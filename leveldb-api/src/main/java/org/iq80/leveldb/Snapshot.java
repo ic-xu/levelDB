@@ -19,4 +19,7 @@ package org.iq80.leveldb;
 
 import java.io.Closeable;
 
+/**
+ * @author chenxu
+ */
 public interface Snapshot extends Closeable {}

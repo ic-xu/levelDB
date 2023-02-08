@@ -18,11 +18,17 @@
 package org.iq80.leveldb;
 
 /**
+ * 读选项
  * @author chenxu
  */
 public class ReadOptions {
+
+    //校验和
     private boolean verifyChecksums;
+
+    //填充缓存
     private boolean fillCache = true;
+    //快找信息
     private Snapshot snapshot;
 
     public Snapshot snapshot() {

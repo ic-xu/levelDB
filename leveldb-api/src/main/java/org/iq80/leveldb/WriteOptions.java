@@ -18,10 +18,21 @@
 package org.iq80.leveldb;
 
 /**
+ * 刷盘选项，
+ * sync是否写同步，同步写是忙于异步写，但不会造成数据丢失，
+ * <p>
+ * 异步写只有机器重启的情况下才会数据丢失，其他情况不会丢失
+ *
  * @author chenxu
  */
 public class WriteOptions {
+
+    /**
+     * 是否异步刷盘
+     */
     private boolean sync;
+
+
     private boolean snapshot;
 
     public boolean sync() {

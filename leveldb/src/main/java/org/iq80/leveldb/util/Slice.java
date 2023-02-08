@@ -38,7 +38,12 @@ import static org.iq80.leveldb.util.SizeOf.SIZE_OF_LONG;
 import static org.iq80.leveldb.util.SizeOf.SIZE_OF_SHORT;
 
 /**
+ *
+ * Slice包装byte数组后，同时增加一个offset记载偏移量与增加length记录数组长度，并增加hash记录hash值，但是此处在WriteBatch保存kv时与这些应该是无关的.
+ *
+ *
  * Little Endian slice of a byte array.
+ * @author chenxu
  */
 public final class Slice implements Comparable<Slice> {
     private final byte[] data;

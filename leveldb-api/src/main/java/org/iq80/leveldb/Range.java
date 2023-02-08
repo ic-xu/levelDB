@@ -18,6 +18,8 @@
 package org.iq80.leveldb;
 
 /**
+ *
+ * 范围，开始和结束
  * @author <a href="http://hiramchirino.com">Hiram Chirino</a>
  */
 public class Range {

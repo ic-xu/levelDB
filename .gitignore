@@ -11,6 +11,8 @@ leveldb-c
 *.swp
 .idea
 .idea/*
+data/
+data
 *.iml
 *.ipr
 *.iws
